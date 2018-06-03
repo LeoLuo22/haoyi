@@ -17,7 +17,7 @@ class HaoyiTransaction(models.Model):
     # 交易表
     account_id = models.CharField(db_column='ACCOUNT_ID', max_length=50)
     transaction_date = models.DateTimeField(db_column='TRANSACTION_DATE')
-    transaction_timestamp = models.CharField(db_column='TRANSACTION_TIMESTAMP', max_length=20, help_text='交易时间戳', null=True)
+    transaction_timestamp = models.CharField(db_column='TRANSACTION_TIMESTAMP', max_length=50, help_text='交易时间戳', null=True)
     '''
     income = models.FloatField(db_column='INCOME', default=0.0)
     expenditure = models.FloatField(db_column='EXPENDITURE', default=0.0)
