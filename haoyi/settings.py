@@ -171,3 +171,5 @@ LOGGING = {
         }
     }
 }
+
+APPEND_SLASH=False

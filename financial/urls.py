@@ -24,6 +24,6 @@ urlpatterns = [
     url(r'v1/balance/(?P<ID>\w+)/$', views.BalanceDetail.as_view()),
     # Need startDate, endDate
     url(r'v1/transactions/(?P<account_id>\w+)/$', views.TransactionQueryset.as_view()), 
-    url(r'v1/transactions/(?P<account_id>\w+)/analysis/$', views.Analysis.as_view()), 
+    url(r'v1/transactions/analysis$', views.Analysis.as_view()), 
     # url(r'test/$', views.Analysis.as_view()),
 ]
