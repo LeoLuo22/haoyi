@@ -23,4 +23,6 @@ class DateTimeUtils:
             return datetime.datetime.strptime(string, '%Y-%m-%dT%H:%M:%SZ')
         elif '-' in string:
             return datetime.datetime.strptime(string, '%Y-%m-%d %H:%M:%S')
+        elif len(string) == 8:
+            return datetime.datetime.strptime(string, '%Y%m%d')
         return datetime.datetime.strptime(string, '%Y%m%d %H:%M:%S')
