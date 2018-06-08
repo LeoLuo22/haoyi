@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'v1/transactions/(?P<account_id>\w+)/$', views.TransactionQueryset.as_view()), 
     url(r'v1/transactions/analysis$', views.Analysis.as_view()), 
     # url(r'test/$', views.Analysis.as_view()),
+    url(r'v1/accounts/(?P<account_id>\S+)/(?P<start_date>\d+)/(?P<end_date>\d+)/$', views.AccountsDetail.as_view()),
 ]

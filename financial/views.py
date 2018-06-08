@@ -16,12 +16,18 @@ from rest_framework.response import Response
 from .models import HaoyiTransaction
 from .serializers import *
 from .util import DateTimeUtils
+from .util import FileUtils
 
 log = logging.getLogger('django')
 
 # Create your views here.
 def transaction_import(request):
-    ABCforEnterprise.import_transaction_v1('E:/TrnxReport.xls', '26-157001040005554')
+    files = FileUtils.get_absolute_files('f:/transactions/1552')
+    '''
+    26-157001040005554
+    '''
+    for file in files:
+        ABCforEnterprise.import_transaction_v1(file, '26-155201040011394')
     return HttpResponse('ok')
 
 class HaoyiTransactionList(mixins.ListModelMixin, 
@@ -68,6 +74,34 @@ class TransactionQueryset(generics.ListAPIView):
         
         pass
         
+class AccountsDetail(APIView):
+
+    def get(self, request, *args, **kwargs):
+        '''
+        获取时间段内收支信息
+        :param start_date 开始日期
+        :param end_date 结束日期
+        :param account_id 账号
+        '''
+        start_date = self.kwargs.get('start_date')
+        end_date = self.kwargs.get('end_date')
+        account_id = self.kwargs.get('account_id')
+
+        transactions = HaoyiTransaction.objects.filter(account_id=account_id, 
+                                                       transaction_date__range=(DateTimeUtils.str_to_dt(start_date), 
+                                                                                DateTimeUtils.str_to_dt(end_date)))
+
+        incomes = []
+        expenditures = []
+        for transaction in transactions:
+            if transaction.transaction_type == 0:
+                expenditures.append(transaction.amount)
+            elif transaction.transaction_type == 1:
+                incomes.append(transaction.amount)
+        income, expenditure = sum(incomes), sum(expenditures)
+        data = dict(income=income, expenditure=expenditure, total=income-expenditure, 
+                    start_date=start_date, end_date=end_date)
+        return Response(data=data)
 
 class Analysis(APIView):
     
