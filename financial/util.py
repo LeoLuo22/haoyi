@@ -1,3 +1,4 @@
+import os
 import xlrd
 import datetime
 
@@ -11,6 +12,19 @@ class FileUtils:
         '''
         return xlrd.open_workbook(filename=filename)
 
+    @staticmethod
+    def get_absolute_files(directory):
+        '''
+        获取文件夹下所有文件
+        :param directory 文件夹
+        :return []
+        '''
+        pathname = []
+        for (dirpath, dirnames, filenames) in os.walk(directory):
+            for filename in filenames:
+                pathname += [os.path.join(dirpath, filename).replace('\\', '/')]
+        return pathname
+        
 class DateTimeUtils:
     @staticmethod
     def str_to_dt(string):
