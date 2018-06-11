@@ -2,6 +2,8 @@ import logging
 
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, Http404
+from django.contrib.auth.decorators import login_required
+
 from .bank import ABCforEnterprise
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
@@ -21,6 +23,7 @@ from .util import FileUtils
 log = logging.getLogger('django')
 
 # Create your views here.
+@login_required
 def transaction_import(request):
     files = FileUtils.get_absolute_files('f:/transactions/1552')
     '''
@@ -76,6 +79,7 @@ class TransactionQueryset(generics.ListAPIView):
         
 class AccountsDetail(APIView):
 
+    @login_required
     def get(self, request, *args, **kwargs):
         '''
         获取时间段内收支信息
